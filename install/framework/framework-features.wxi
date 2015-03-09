@@ -3,7 +3,7 @@
     <Feature Id="NUNIT.FRAMEWORK"
              ConfigurableDirectory="INSTALLDIR"
              Level="1"
-             Title="NUnit Framework v!(bind.FileVersion.nunit.framework.45.dll)"
+             Title="NUnit Framework v!(bind.FileVersion.nunit.framework.46.dll)"
              Display="expand"
              Description="Installs the NUnit framework assemblies for the various .NET Frameworks">
 
@@ -18,6 +18,10 @@
         <Feature Id="NET45" Level="1" Title=".NET 4.5"
                     Description="Installs the NUnit framework for .NET 4.5" >
             <ComponentGroupRef Id="NET45"/>
+        </Feature>
+        <Feature Id="NET45" Level="1" Title=".NET 4.6"
+                    Description="Installs the NUnit framework for .NET 4.6" >
+            <ComponentGroupRef Id="NET46"/>
         </Feature>
         <Feature Id="PORTABLE" Level="1" Title=".NET Portable"
                     Description="Installs the NUnit framework for Portable .NET" >

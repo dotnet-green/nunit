@@ -26,6 +26,7 @@
       </group>
       <!-- This is required otherwise 4.5 will pull in the 4.0 dependencies -->
       <group targetFramework="net45" />
+      <group targetFramework="net46" />
     </dependencies>
   </metadata>
   <files>
@@ -35,6 +36,7 @@
     <file src="$builddir$\net-2.0\nunitlite.dll" target="lib\net20" />
     <file src="$builddir$\net-4.0\nunitlite.dll" target="lib\net40" />
     <file src="$builddir$\net-4.5\nunitlite.dll" target="lib\net45" />
+    <file src="$builddir$\net-4.6\nunitlite.dll" target="lib\net46" />
     <file src="$builddir$\sl-5.0\nunitlite.dll" target="lib\sl5" />
     <file src="nuget\Program.cs" target="content" />
   </files>

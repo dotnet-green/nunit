@@ -22,6 +22,7 @@
       </group>
       <!-- This is required otherwise 4.5 will pull in the 4.0 dependencies -->
       <group targetFramework="net45" />
+      <group targetFramework="net46" />
     </dependencies>
   </metadata>
   <files>
@@ -34,6 +35,8 @@
     <file src="$builddir$\net-4.0\nunit.framework.xml" target="lib\net40" />
     <file src="$builddir$\net-4.5\nunit.framework.dll" target="lib\net45" />
     <file src="$builddir$\net-4.5\nunit.framework.xml" target="lib\net45" />
+    <file src="$builddir$\net-4.6\nunit.framework.dll" target="lib\net46" />
+    <file src="$builddir$\net-4.6\nunit.framework.xml" target="lib\net46" />
     <file src="$builddir$\sl-5.0\nunit.framework.dll" target="lib\sl50" />
     <file src="$builddir$\sl-5.0\nunit.framework.xml" target="lib\sl50" />
     <file src="$builddir$\portable\nunit.framework.dll" target="lib\portable-net45+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1" />

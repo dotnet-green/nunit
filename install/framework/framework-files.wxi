@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
     <Fragment>
-        
+
         <!-- .NET Framework 2.0 -->
         <ComponentGroup Id="NET20" Directory="NET20">
             <Component Id="NET20" Location="local" Guid="D5DB98E2-AF98-4308-83FE-BA4D973F973D">
@@ -73,6 +73,31 @@
             <Component Id="AssemblyReferenceFolder45" Guid="35D1B1E4-3E0D-4F4C-A5EF-AA4363C403A9">
                 <RegistryKey Root="HKMU" Key="Software\Microsoft\.NETFramework\v4.5\AssemblyFoldersEx\NUnit [ProductVersion]" >
                     <RegistryValue Action="write" Type="string" Value="[NET45]" />
+                </RegistryKey>
+            </Component>
+        </ComponentGroup>
+
+        <!-- .NET Framework 4.6 -->
+        <ComponentGroup Id="NET46" Directory="NET46">
+            <Component Id="NET46" Location="local" Guid="6CBE4F8B-8583-48F2-A2FD-2A3875DB8665">
+                <File Id="nunit.framework.46.dll"
+                      Name="nunit.framework.dll"
+                      ProcessorArchitecture="msil"
+                      Source="$(var.BuildDir)net-4.6\nunit.framework.dll" />
+                <File Id="nunit.framework.46.xml"
+                      Name="nunit.framework.xml"
+                      Source="$(var.BuildDir)net-4.6\nunit.framework.xml"
+                      CompanionFile="nunit.framework.46.dll" />
+            </Component>
+            <Component Id="NET45_RUNNER" Location="local" Guid="0981DAF4-C9CD-4D86-9400-69FBF9FE2A6E">
+                <File Id="nunitlite.46.dll"
+                      Name="nunitlite.dll"
+                      ProcessorArchitecture="msil"
+                      Source="$(var.BuildDir)net-4.6\nunitlite.dll" />
+            </Component>
+            <Component Id="AssemblyReferenceFolder46" Guid="35D1B1E4-3E0D-4F4C-A5EF-AA4363C403A9">
+                <RegistryKey Root="HKMU" Key="Software\Microsoft\.NETFramework\v4.6\AssemblyFoldersEx\NUnit [ProductVersion]" >
+                    <RegistryValue Action="write" Type="string" Value="[NET46]" />
                 </RegistryKey>
             </Component>
         </ComponentGroup>

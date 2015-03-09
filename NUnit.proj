@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Project DefaultTargets="Build" InitialTargets="" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  
+
 	<!-- *********************************************************************** -->
 	<!--                          Define Properties                              -->
 	<!-- *********************************************************************** -->
-	
+
 	<PropertyGroup Label="Common Properties">
 		<ProjectName>$(MSBuildProjectName)</ProjectName>
 		<PackageVersion>3.0.0</PackageVersion>
-		<PackageModifier>-alpha-5b</PackageModifier>
+		<PackageModifier>-alpha-5b46</PackageModifier>
 		<PackageName>$(ProjectName)-$(PackageVersion)$(PackageModifier)</PackageName>
 	</PropertyGroup>
 
@@ -38,7 +38,7 @@
 
 	<PropertyGroup Label="Default Build Settings">
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
-		<Framework Condition="'$(Framework)' == ''">net-4.5</Framework>
+		<Framework Condition="'$(Framework)' == ''">net-4.6</Framework>
 		<ConfigSuffix Condition=" '$(Configuration)' == 'Debug' ">-dbg</ConfigSuffix>
 	</PropertyGroup>
 
@@ -57,6 +57,10 @@
 		<PackageLibDir>$(PackageWorkingDir)\lib</PackageLibDir>
 	</PropertyGroup>
 
+  <PropertyGroup Condition="'$(Framework)'=='net-4.6'">
+		<ProjectSuffix>4.6</ProjectSuffix>
+		<Runtime>NET</Runtime>
+	</PropertyGroup>
 	<PropertyGroup Condition="'$(Framework)'=='net-4.5'">
 		<ProjectSuffix>4.5</ProjectSuffix>
 		<Runtime>NET</Runtime>
@@ -115,7 +119,7 @@
 	<!-- *********************************************************************** -->
 	<!--                        Dump Settings Target                             -->
 	<!-- *********************************************************************** -->
-	
+
 	<Target Name="DumpSettings">
 		<Message Text=" " />
 		<Message Text="Platform-specific properties:" />
@@ -165,7 +169,7 @@
 	<!-- *********************************************************************** -->
 	<!--                            Clean Targets                                -->
 	<!-- *********************************************************************** -->
-	
+
 	<Target Name="Clean" DependsOnTargets="CleanFramework;CleanEngine;CleanConsole" />
 
 	<Target Name="CleanAll" DependsOnTargets="CleanAllFrameworks;CleanEngine;CleanConsole">
@@ -203,7 +207,7 @@
 	<Target Name="Build" Label="Build the framework, engine and console for the current config"
 		DependsOnTargets="BuildFramework;BuildEngine;BuildConsole" />
 
-	<Target Name="BuildAll" Label="Build all frameworks, engine and console for the current config" 
+	<Target Name="BuildAll" Label="Build all frameworks, engine and console for the current config"
 		DependsOnTargets="BuildAllFrameworks;BuildEngine;BuildConsole" />
 
 	<Target Name="BuildAllFrameworks" Label="Build the framework for the current config and all runtimes">
@@ -212,10 +216,10 @@
 	</Target>
 
 	<Target Name="BuildFramework" Label="Build the framework for the current config and runtime">
-		<MSBuild Targets="Build" Projects="@(NUnitProjects)" 
+		<MSBuild Targets="Build" Projects="@(NUnitProjects)"
 			Properties="Configuration=$(Configuration); Platform=AnyCPU" />
 	</Target>
-	
+
 	<Target Name="BuildEngine" Label="Build all engine projects for the current config">
 		<MSBuild Targets="Build" Projects="@(EngineProjects)"
 			Properties="Configuration=$(Configuration); Platform=AnyCPU" />
@@ -223,10 +227,10 @@
 
 	<!-- This target is kept separate from the engine because it can't be built on some systems -->
 	<Target Name="BuildCppTestFiles" Label="Build the C++ assemblies used in some engine tests">
-		<MSBuild Targets="Build" Projects="$(EngineSrcDir)\mock-cpp-clr\mock-cpp-clr-x86.vcxproj" 
+		<MSBuild Targets="Build" Projects="$(EngineSrcDir)\mock-cpp-clr\mock-cpp-clr-x86.vcxproj"
 			 Properties="Configuration=$(Configuration); Platform=Win32"
 			 Condition="'$(Runtime)' == 'NET' And $(IsWindows)" />
-		<MSBuild Targets="Build" Projects="$(EngineSrcDir)\mock-cpp-clr\mock-cpp-clr-x64.vcxproj" 
+		<MSBuild Targets="Build" Projects="$(EngineSrcDir)\mock-cpp-clr\mock-cpp-clr-x64.vcxproj"
 			 Properties="Configuration=$(Configuration); Platform=x64"
 			 Condition="'$(Runtime)' == 'NET' And $(IsWindows)" />
 	</Target>
@@ -242,18 +246,18 @@
 
 	<Target Name="TestAll" Label="Run tests for all framework builds, the engine and the console"
 			DependsOnTargets="TestAllFrameworks;TestEngine;TestAddins;TestV2Driver;TestConsole" />
-	  
+
 	<Target Name="Test" Label="Run tests for the current framework, engine and console"
 			DependsOnTargets="TestFramework;TestEngine;TestAddins;TestV2Driver;TestConsole" />
 
 	<Target Name="TestAllFrameworks"
 			Label="Test the framework for the current config and all runtimes">
-		
+
 		<MSBuild Projects="$(MSBuildProjectFullPath)"
 				 Targets="TestFrameworkIfSupported"
 				 Properties="Framework=%(SupportedFrameworks.Identity)"
 				 ContinueOnError="$(ContinueOnFailure)" />
-		
+
 	</Target>
 
 	<Target Name="TestFrameworkIfSupported"
@@ -267,7 +271,7 @@
 
 	<Target Name="TestFramework" DependsOnTargets="_CreateResultDir"
 			Label="Run framework tests for a runtime without checking for errors">
-		
+
 		<Message Text="******************************************************************" />
 		<Message Text="* Testing NUnitFramework $(Framework) - $(Configuration)" />
 		<Message Text="******************************************************************" />
@@ -275,10 +279,10 @@
 		<Error Condition="'$(Runtime)' == 'netcf' Or '$(Runtime)' == 'silverlight' Or '$(Runtime)' == 'portable'"
 			Text="The full NUnit framework cannot be tested under $(Runtime)" />
 
-		<Exec WorkingDirectory="$(ConsoleBuildDir)" 
+		<Exec WorkingDirectory="$(ConsoleBuildDir)"
 			  Command='$(ManagedExeLauncher) $(ConsoleRunner) $(Framework)/nunit.framework.tests.dll "-result:$(ResultDir)/NUnitFrameworkResult-$(Framework).xml;format=$(ResultFormat)" $(TestOptions)'
 			  ContinueOnError="$(ContinueOnFailure)" />
-		
+
 	</Target>
 
 	<Target Name="TestEngine"
@@ -316,31 +320,31 @@
 		<Message Text="******************************************************************" />
 		<Message Text="* Testing the NUnit V2 Driver - $(Configuration)" />
 		<Message Text="******************************************************************" />
-		
+
 		<Exec WorkingDirectory="$(EngineBuildDir)"
 			Command='$(ManagedExeLauncher) $(ConsoleRunner) addins/v2-tests/nunit.v2.driver.tests.dll "-result:$(ResultDir)/V2DriverResult.xml;format=$(ResultFormat)"  $(TestOptions)'
 			ContinueOnError="$(ContinueOnFailure)"/>
-		
+
 	</Target>
-	
+
 	<Target Name="TestConsole"
 			Label="Run the console tests"
 			DependsOnTargets="_CreateResultDir">
-		
+
 		<Message Text="******************************************************************" />
 		<Message Text="* Testing the Console Runner - $(Configuration)" />
 		<Message Text="******************************************************************" />
-		
+
 		<Exec WorkingDirectory="$(ConsoleBuildDir)"
 			  Command='$(ManagedExeLauncher) $(ConsoleRunner) nunit-console.tests.dll "-result:$(ResultDir)/ConsoleResult.xml;format=$(ResultFormat)" $(TestOptions)'
 			  ContinueOnError="$(ContinueOnFailure)" />
-		
+
 	</Target>
-	
+
 	<Target Name="_CreateResultDir">
-		
+
 		<MakeDir Directories="$(ResultDir)"  Condition="!Exists(ResultDir)"/>
-		
+
 	</Target>
 
 	<!-- *********************************************************************** -->
@@ -350,14 +354,14 @@
 	<Target Name="TestCoverage">
 		<CallTarget Targets="_NUnitCoverage" Condition="'$(Runtime)' != 'netcf'"></CallTarget>
 	</Target>
-	
+
 	<Target Name="_NUnitCoverage">
 		<Error Condition="'$(Runtime)' == 'netcf'" Text="The full NUnit framework cannot be tested under $(Runtime)"></Error>
 		<Exec WorkingDirectory="$(FrameworkBuildDir)"
 			  Command='$(ManagedExeLauncher) $(PartCoverDir)\PartCover.exe --target "$(ConsoleRunner)" --target-args "$(Framework)/nunit.framework.tests.dll $(TestOptions)" --include [nunit.framework]* --output NUnitTestCoverage.xml'>
 		</Exec>
 	</Target>
-	
+
 	<!-- *********************************************************************** -->
 	<!--                          Packaging Targets                              -->
 	<!--                                                                         -->
@@ -366,7 +370,7 @@
 	<!--   Packaging is decoupled from the Build by design. It's up to whoever   -->
 	<!--   creates the package to first make sure that the build is up to date.  -->
 	<!-- *********************************************************************** -->
-	
+
 	<Target Name="Package" Label="Packages the source code and binaries already built"
 		DependsOnTargets="@(AllPackages)">
 	</Target>
@@ -388,14 +392,14 @@
 		<Exec WorkingDirectory='$(PackageWorkingDir)' Command='git add -A' />
 		<Exec WorkingDirectory='$(PackageWorkingDir)' Command='git config user.name "temp"' />
 		<Exec WorkingDirectory='$(PackageWorkingDir)' Command='git config user.email "temp@temp.com"' />
-		<Exec WorkingDirectory='$(PackageWorkingDir)' Command='git commit -m "Export"' /> 
-		<Exec WorkingDirectory='$(PackageWorkingDir)' 
+		<Exec WorkingDirectory='$(PackageWorkingDir)' Command='git commit -m "Export"' />
+		<Exec WorkingDirectory='$(PackageWorkingDir)'
 			Command='git archive -o "$(ProjectPackageDir)\$(PackageName)$(ConfigSuffix).zip" HEAD'></Exec>
 	</Target>
 
 	<Target Name="PackageNuGet" Label="Creates all NuGet packages"
 		DependsOnTargets="PackageNuGetNUnit;PackageNuGetNUnitLite;PackageNuGetConsole" />
-  
+
 	<Target Name="PackageNuGetNUnit" Label="Creates the NUnit Framework NuGet package"
 			DependsOnTargets="_CreateProjectPackageDir">
 		<Message Text="******************************************************************" />
@@ -406,7 +410,7 @@
 			  Command="$(ManagedExeLauncher) &quot;$(NugetExecutable)&quot; pack $(NuspecDirectory)\nunit.nuspec -BasePath &quot;$(ProjectBaseDir)&quot; -OutputDirectory &quot;$(ProjectPackageDir)&quot; -Properties version=$(NugetVersion);builddir=$(ConfigurationBuildDir)" />
 
 	</Target>
-  
+
 	<Target Name="PackageNuGetNUnitLite" Label="Creates the NUnitlite NuGet package"
 			DependsOnTargets="_CreateProjectPackageDir">
 		<Message Text="******************************************************************" />
@@ -417,7 +421,7 @@
 			  Command="$(ManagedExeLauncher) &quot;$(NugetExecutable)&quot; pack $(NuspecDirectory)\nunitlite.nuspec -BasePath &quot;$(ProjectBaseDir)&quot; -OutputDirectory &quot;$(ProjectPackageDir)&quot; -Properties version=$(NugetVersion);builddir=$(ConfigurationBuildDir)" />
 
 	</Target>
-  
+
 	<Target Name="PackageNuGetConsole" Label="Creates the NUnit.Console NuGet package"
 			DependsOnTargets="_CreateProjectPackageDir">
 		<Message Text="******************************************************************" />
@@ -448,14 +452,14 @@
 					DependsOnTargets="_CreateProjectPackageDir;PackageMasterMsi;PackageFrameworkMsi;PackageConsoleMsi">
 		<Copy DestinationFolder="$(ProjectPackageDir)" SourceFiles="@(InstallerFiles)" />
 	</Target>
-	
+
 	<Target Name="_CreatePackageImage" DependsOnTargets="_CleanPackageWorkingDir">
 
 		<!-- Copy root txt files to root -->
 		<Copy DestinationFolder="$(PackageWorkingDir)" SourceFiles="@(RootFiles)" />
 
 		<!-- Copy binaries to bin directory -->
-		<Copy DestinationFiles="@(BinFiles->'$(PackageBinDir)\%(RecursiveDir)%(Filename)%(Extension)')" 
+		<Copy DestinationFiles="@(BinFiles->'$(PackageBinDir)\%(RecursiveDir)%(Filename)%(Extension)')"
 			  SourceFiles="@(BinFiles)"></Copy>
 
 	</Target>
@@ -468,7 +472,7 @@
 		<Exec Command="$(RemoveDir) $(PackageWorkingDir)" Condition="Exists('$(PackageWorkingDir)')" />
 		<MakeDir Directories="$(PackageWorkingDir)" />
 	</Target>
-  
+
 	<!-- *********************************************************************** -->
 	<!--                       Lists For Use by Targets                          -->
 	<!-- *********************************************************************** -->
@@ -483,7 +487,7 @@
 	<ItemGroup Label="MSI Installer Files">
 		<InstallerFiles Include="$(ConfigurationBuildDir)\*.msi" />
 	</ItemGroup>
-	
+
 	<ItemGroup Label="Files for packaging in root">
 		<RootFiles Include="LICENSE.txt;NOTICES.txt;CHANGES.txt" />
 	</ItemGroup>
@@ -514,6 +518,7 @@
 	</ItemGroup>
 
 	<ItemGroup Label="Supported Frameworks">
+    <SupportedFrameworks Include="net-4.6" />
 		<SupportedFrameworks Include="net-4.5" />
 		<SupportedFrameworks Include="net-4.0" />
 		<SupportedFrameworks Include="net-2.0" />
@@ -521,7 +526,7 @@
 		<SupportedFrameworks Condition="$(IsWindows)" Include="sl-5.0" />
 		<SupportedFrameworks Condition="$(IsWindows)" Include="portable" />
 	</ItemGroup>
-	
+
 	<ItemGroup Label="Projects for building the framework">
 		<NUnitProjects Include="$(FrameworkSrcDir)\framework\nunit.framework-$(ProjectSuffix).csproj"></NUnitProjects>
 		<NUnitProjects Include="$(FrameworkSrcDir)\nunitlite.runner\nunitlite.runner-$(ProjectSuffix).csproj"
@@ -534,7 +539,7 @@
 		<NUnitProjects Include="$(FrameworkSrcDir)\tests\nunit.framework.tests-$(ProjectSuffix).csproj"
 			Condition="'$(Runtime)' != 'portable'"></NUnitProjects>
 	</ItemGroup>
-	
+
 	<ItemGroup Label="Projects for building the engine">
 		<!-- Our private version of Mono.Addins -->
 		<EngineProjects Include="$(EngineSrcDir)\mono-addins\Mono.Addins.csproj" />

@@ -1,11 +1,19 @@
 ﻿NOTE: A combined description of changes since NUnit 2.6.3 is under development along with a summary statement of major features. Both will be available in the first Beta release.
 
+NUnit 3.0.0 Alpha 5b46 - March 9, 2015
+
+General
+
+ * .NET Framework 4.6 is now included.
+
+Framework
+
 NUnit 3.0.0 Alpha 5 - January 30, 2015
 
 General
 
  * A Windows installer is now included in the release packages.
- 
+
 Framework
 
  * TestCaseAttribute now allows arguments with default values to be omitted. Additionaly, it accepts a Platform property to specify the platforms on which the test case should be run.
@@ -46,7 +54,7 @@ Issues Resolved
  * 459  Remove the Mixed Platforms build configuration.
  * 468  Change default domain usage to multiple.
  * 469  Truncate string arguments in test names in order to limit the length.
- 
+
 NUnit 3.0.0 Alpha 4 - December 30, 2014
 
 Framework
@@ -122,7 +130,7 @@ Engine
  * The logic of runtime selection has now changed so that each assembly runs by default
    in a separate process using the runtime for which it was built.
  * On 64-bit systems, each test process is automatically created as 32-bit or 64-bit,
-   depending on the platform specified for the test assembly. 
+   depending on the platform specified for the test assembly.
 
 Console
 
@@ -164,7 +172,7 @@ Issues Resolved
  * 373  Minor CF Test Fixes
  * 378  Correct documentation for PairwiseAttribute
  * 386  Console Output Improvements
- 
+
 NUnit 3.0.0 Alpha 2 - November 2, 2014
 
 Breaking Changes
@@ -314,7 +322,7 @@ Issues Resolved
  * 85	Culture-dependent NUnit tests fail on non-English machine
  * 88	TestCaseSourceAttribute documentation
  * 90	EquivalentTo isn't compatible with IgnoreCase for char
- * 100	Changes to Tolerance definitions 
+ * 100	Changes to Tolerance definitions
  * 110	Add new platforms to PlatformAttribute
  * 113	Remove ExpectedException
  * 118	Workarounds for missing InternalPreserveStackTrace in mono
@@ -337,7 +345,7 @@ Main Features
  * External API is now stable; internal interfaces are separate from API
  * Tests may be run in parallel on separate threads
  * Solutions and projects now use VS2012 (except for Compact framework)
- 
+
 Bug Fixes
 
  * 463470 	We should encapsulate references to pre-2.0 collections
@@ -419,7 +427,7 @@ Bug Fixes in 2.9.6 But Not Listed Here in the Release
  * 1222148	/framework switch does not recognize net-4.5
  * 1228979	Theories with all test cases inconclusive are not reported as failures
 
-    
+
 NUnit 2.9.5 - July 30, 2010
 
 Bug Fixes
@@ -439,7 +447,7 @@ Bug Fixes
  * 605432 	ToString not working properly for some properties
  * 606548 	Deprecate Directory Assert in 2.5 and remove it in 3.0
  * 608875 	NUnit Equality Comparer incorrectly defines equality for Dictionary objects
-    
+
 NUnit 2.9.4 - May 4, 2010
 
 Bug Fixes
@@ -459,11 +467,11 @@ Bug Fixes
  * 556971 	Datapoint(s)Attribute should work on IEnumerable<T> as well as on Arrays
  * 561436 	SetCulture broken with 2.5.4
  * 563532 	DatapointsAttribute should be allowed on properties and methods
-     
+
 NUnit 2.9.3 - October 26, 2009
 
 Main Features
- 
+
  * Created new API for controlling framework
  * New builds for .Net 3.5 and 4.0, compact framework 3.5
  * Support for old style tests has been removed
@@ -481,7 +489,7 @@ Main Features
  * NUnitLite code is now merged with NUnit
  * Added NUnitLite runner to the framework code
  * Added Compact framework builds
- 
+
 Bug Fixes
 
  * 430100 	Assert.Catch<T> should return T

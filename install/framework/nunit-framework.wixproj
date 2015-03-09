@@ -59,7 +59,7 @@
 	</Target>
 	-->
   <Target Name="BeforeBuild">
-    <GetAssemblyIdentity AssemblyFiles="..\..\bin\$(Configuration)\net-4.5\nunit.framework.dll">
+    <GetAssemblyIdentity AssemblyFiles="..\..\bin\$(Configuration)\net-4.6\nunit.framework.dll">
       <Output TaskParameter="Assemblies" ItemName="AssemblyVersions" />
     </GetAssemblyIdentity>
     <CreateProperty Value="$(OutputName).%(AssemblyVersions.Version)">
